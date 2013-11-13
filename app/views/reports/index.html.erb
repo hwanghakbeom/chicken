@@ -112,6 +112,23 @@
   background-image: -o-linear-gradient(top, #000000, #7bbbe2 50%, #000000);
   background-image: linear-gradient(to bottom, #277db2, #7bbbe2 50%, #277db2);
 }
+
+.label {
+background-image:url(<%= asset_path '1.png' %>);
+width:73px;
+height:73px;
+background-repeat:no-repeat;
+cursor:pointer;
+border:none;
+}
+
+.label:hover {
+background-image:url('<%= asset_path 'c1.png' %>');
+background-repeat:no-repeat;
+cursor:pointer;
+border:none;
+}
+
 </style>
 <script type="text/javascript" >
 function myFunction(clicked_id)
@@ -126,7 +143,23 @@ function myFunction(clicked_id)
 	else if (document.getElementById(clicked_id).className == "green2"){ document.getElementById(clicked_id).className = "green";}
 
 }
+
+var inputs = document.getElementsByTagName('input');
+
+for (var i = 0, len = inputs.length; i < len; i++) {
+    input = inputs[i];
+    input.onmouseover = function(){
+        this.setAttribute('data-orig-image',this.getAttribute('src'));
+        this.src = this.getAttribute('data-alt-image');
+    };
+    input.onmouseout = function(){
+        this.src = this.getAttribute('data-orig-image');
+    };
+}
 </script>
+  <li id="home"></li>
+  <li id="prev"></li>
+  <li id="next"></li>
 <div class="container">
 	<div class="container">
 		<div class="row">
@@ -198,11 +231,14 @@ function myFunction(clicked_id)
 									<label for="icheck1">All</label>
 									</button>
 								</td>
-								<td class="in-checkbox">
+								<td>
 								<center>
 									<!-- <input type="checkbox" class="icheck" id="icheck2"> -->
 									<label for="icheck2">									
-									<%= image_tag("Memory-icon.png", :size => "48x48", :alt => "Edit Entry") %> <br>Memory
+									<%= image_tag("1.png", :height => '32', :width => '32',:mouseover => image_path("c1-1.png")) %>
+
+									 </label>
+									<br>Memory
 									</label>
 									</center>
 								</td>
@@ -210,7 +246,7 @@ function myFunction(clicked_id)
 								<center>
 									<!-- <input type="checkbox" class="icheck" id="icheck3"> -->
 									<label for="icheck2">
-									<%= image_tag("kcm-processor-icon.png", :size => "48x48", :alt => "Edit Entry") %><br> CPU
+									<%= image_tag("2.png", :height => '32', :width => '32',:mouseover => image_path("c2.png")) %><br> CPU
 									</label>
 									</center>
 								</td>
@@ -218,7 +254,7 @@ function myFunction(clicked_id)
 								<center>
 								<!-- 	<input type="checkbox" class="icheck" id="icheck3"> -->
 									<label for="icheck2"> 
-									<%= image_tag("Devices-network-wireless-connected-100-icon.png", :size => "48x48", :alt => "Edit Entry")%><br>Network
+									<%= image_tag("3.png", :height => '32', :width => '32',:mouseover => image_path("c3.png")) %><br>Network
 									</label>
 									</center>
 								</td>
@@ -226,7 +262,7 @@ function myFunction(clicked_id)
 								<center>
 									<!-- <input type="checkbox" class="icheck" id="icheck3"> -->
 									<label for="icheck2">
-									 <%= image_tag("Battery-icon.png", :size => "48x48", :alt => "Edit Entry")  %><br>Battery
+									<%= image_tag("4.png", :height => '32', :width => '32',:mouseover => image_path("c4.png")) %><br>Battery
 									 </label>
 									 </center>
 								</td>
@@ -291,10 +327,10 @@ function myFunction(clicked_id)
 									<td></td>
 									<td><%= link_to report.appversion, [@project, report] %></td>
 									<td>
-									<%= image_tag("Memory-icon.png", :alt => "Edit Entry")  if report.categories.include? 'Memory'%>
-									<%= image_tag("kcm-processor-icon.png", :alt => "Edit Entry")  if report.categories.include? 'CPU'%>
-									<%= image_tag("Devices-network-wireless-connected-100-icon.png", :alt => "Edit Entry") if report.categories.include? 'Network' %>
-									<%= image_tag("Battery-icon.png", :alt => "Edit Entry") if report.categories.include? 'Battery'  %>
+									<%= image_tag("1.png", :alt => "Edit Entry")  if report.categories.include? 'Memory'%>
+									<%= image_tag("2.png", :alt => "Edit Entry")  if report.categories.include? 'CPU'%>
+									<%= image_tag("3.png", :alt => "Edit Entry") if report.categories.include? 'Network' %>
+									<%= image_tag("4.png", :alt => "Edit Entry") if report.categories.include? 'Battery'  %>
 									</td>
 									<td>Status</td>
 									<td><%= report.time_for_profiling %></td>
