@@ -1,0 +1,54 @@
+<nav class="navbar navbar-default navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="navbar-header">
+		<a class="navbar-brand" href=<%= root_path %>><%= image_tag("cerberus.png", :alt => "Edit Entry" ,:size => "119x26") %></a>
+
+ <!--    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse-primary">
+      <span class="sr-only">Toggle Side Navigation</span>
+      <i class="icon-th-list"></i>
+    </button>
+
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse-top">
+      <span class="sr-only">Toggle Top Navigation</span>
+      <i class="icon-align-justify"></i>
+    </button> -->
+	</div>
+
+	<div class="collapse navbar-collapse navbar-collapse-top">
+    <div class="navbar-right">
+      <% if project %>
+        <ul class="nav navbar-nav navbar-left">
+          <li class="cdrop"><%= link_to "Dashboard", project %></li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-left">
+          <li class="cdrop"><%= link_to "Report List", project_reports_path(project) %></li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-left">
+          <li class="cdrop"><%= link_to "Events", "#" %></li>
+        </ul>
+
+      	<ul class="nav navbar-nav navbar-left">
+          <li class="cdrop"><%= link_to "Test List", project_scenarios_path(project) %></li>
+        </ul>
+      <% end %>
+
+      <ul class="nav navbar-nav navbar-left">
+        <li class="cdrop"><a href="#">Get SDK</a></li>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-left">
+        <li class="cdrop"><a href="#">Help</a></li>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-left">
+        <li class="cdrop">
+          <% if user_session %>
+            <%= link_to "Logout", destroy_user_session_path, method: :delete %>
+          <% end %>
+        </li>
+      </ul>
+      
+    </div> 
+  </div>
+</nav>

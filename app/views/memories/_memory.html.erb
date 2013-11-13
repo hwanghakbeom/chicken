@@ -1,0 +1,262 @@
+<style>
+ .fancyprogress {
+ height: 20px;
+ background: #ebebeb;
+ border-left: 1px solid transparent;
+ border-right: 1px solid transparent;
+ border-radius: 10px;
+ }
+ .fancyprogress > span {
+ position: relative;
+ float: left;
+ margin: 0px;
+ min-width: 30px;
+ height: 18px;
+ line-height: 16px;
+ text-align: right;
+ background: #cccccc;
+ border: 1px solid;
+ border-color: #bfbfbf #b3b3b3 #9e9e9e;
+ border-radius: 10px;
+ background-image: -webkit-linear-gradient(top, #f0f0f0, #dbdbdb 70%, #cccccc);
+ background-image: -moz-linear-gradient(top, #f0f0f0, #dbdbdb 70%, #cccccc);
+ background-image: -o-linear-gradient(top, #f0f0f0, #dbdbdb 70%, #cccccc);
+ background-image: linear-gradient(to bottom, #f0f0f0, #dbdbdb 70%, #cccccc);
+ -webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+ box-shadow: inset 0 1px rgba(255, 255, 255, 0.3), 0 1px 2px rgba(0, 0, 0, 0.2);
+ }
+ .fancyprogress > span > span {
+ padding: 0 8px;
+ font-size: 15px;
+ font-weight: bold;
+ color: #404040;
+ color: rgba(0, 0, 0, 0.7);
+ text-shadow: 0 1px rgba(255, 255, 255, 0.4);
+ }
+ .fancyprogress > span:before {
+ content: '';
+ position: absolute;
+ top: 0;
+ bottom: 0;
+ left: 0;
+ right: 0;
+ z-index: 1;
+ height: 25px;
+ background: url( <%= asset_path 'progress.png' %>) 0 0 repeat-x;
+ border-radius: 10px;
+ }
+ .fancyprogress .green {
+ background: #85c440;
+ border-color: #78b337 #6ba031 #568128;
+ background-image: -webkit-linear-gradient(top, #b7dc8e, #99ce5f 70%, #85c440);
+ background-image: -moz-linear-gradient(top, #b7dc8e, #99ce5f 70%, #85c440);
+ background-image: -o-linear-gradient(top, #b7dc8e, #99ce5f 70%, #85c440);
+ background-image: linear-gradient(to bottom, #b7dc8e, #99ce5f 70%, #85c440);
+ }
+ .fancyprogress .red {
+ background: #db3a27;
+ border-color: #c73321 #b12d1e #8e2418;
+ background-image: -webkit-linear-gradient(top, #ea8a7e, #e15a4a 70%, #db3a27);
+ background-image: -moz-linear-gradient(top, #ea8a7e, #e15a4a 70%, #db3a27);
+ background-image: -o-linear-gradient(top, #ea8a7e, #e15a4a 70%, #db3a27);
+ background-image: linear-gradient(to bottom, #ea8a7e, #e15a4a 70%, #db3a27);
+ }
+ .fancyprogress .orange {
+ background: #f2b63c;
+ border-color: #f0ad24 #eba310 #c5880d;
+ background-image: -webkit-linear-gradient(top, #f8da9c, #f5c462 70%, #f2b63c);
+ background-image: -moz-linear-gradient(top, #f8da9c, #f5c462 70%, #f2b63c);
+ background-image: -o-linear-gradient(top, #f8da9c, #f5c462 70%, #f2b63c);
+ background-image: linear-gradient(to bottom, #f8da9c, #f5c462 70%, #f2b63c);
+ }
+ .fancyprogress .blue {
+ background: #5aaadb;
+ border-color: #459fd6 #3094d2 #277db2;
+ background-image: -webkit-linear-gradient(top, #aed5ed, #7bbbe2 70%, #5aaadb);
+ background-image: -moz-linear-gradient(top, #aed5ed, #7bbbe2 70%, #5aaadb);
+ background-image: -o-linear-gradient(top, #aed5ed, #7bbbe2 70%, #5aaadb);
+ background-image: linear-gradient(to bottom, #aed5ed, #7bbbe2 70%, #5aaadb);
+ }
+ </style>
+ <script src="/assets/amcharts.js" type="text/javascript"></script>
+        <script src="/assets/serial.js" type="text/javascript"></script>    
+        <script src="/assets/pie.js" type="text/javascript"></script>     
+        <script type="text/javascript">
+            var chart;
+
+            var chartData = [
+                {
+                    "year": "byte[]",
+                    "income": 57
+                },
+                {
+                    "year": "char[]",
+                    "income": 1905
+                },
+                {
+                    "year": "java.lang.Class",
+                    "income": 13
+                },
+                {
+                    "year": "long[]",
+                    "income": 495
+                },
+                {
+                    "year": "java.lang.String",
+                    "income": 1673
+                }
+            ];
+
+
+            AmCharts.ready(function () {
+                // SERIAL CHART
+                chart = new AmCharts.AmSerialChart();
+                chart.dataProvider = chartData;
+                chart.categoryField = "year";
+                // this single line makes the chart a bar chart, 
+                // try to set it to false - your bars will turn to columns                
+                chart.rotate = true;
+                // the following two lines makes chart 3D
+                chart.depth3D = 20;
+                chart.angle = 30;
+
+                // AXES
+                // Category
+                var categoryAxis = chart.categoryAxis;
+                categoryAxis.gridPosition = "start";
+                categoryAxis.axisColor = "#DADADA";
+                categoryAxis.fillAlpha = 1;
+                categoryAxis.gridAlpha = 0;
+                categoryAxis.fillColor = "#FAFAFA";
+
+                // value
+                var valueAxis = new AmCharts.ValueAxis();
+                valueAxis.axisColor = "#DADADA";
+                valueAxis.title = "Leak Suspect";
+                valueAxis.gridAlpha = 0.1;
+                chart.addValueAxis(valueAxis);
+
+                // GRAPH
+                var graph = new AmCharts.AmGraph();
+                graph.title = "Income";
+                graph.valueField = "income";
+                graph.type = "column";
+                graph.balloonText = "Leak in [[category]]:[[value]]";
+                graph.lineAlpha = 0;
+                graph.fillColors = "#bf1c25";
+                graph.fillAlphas = 1;
+                chart.addGraph(graph);
+
+                // WRITE
+                chart.write("chartdiv");
+            });
+           	var chart2;
+            var legend;
+
+            var chartData2 = [
+                {
+                    "country": "byte[]",
+                    "value": 57
+                },
+                {
+                    "country": "char[]",
+                    "value": 1905
+                },
+                {
+                    "country": "java.lang.Class",
+                    "value": 13
+                },
+                {
+                    "country": "long[]",
+                    "value": 495
+                },
+                {
+                    "country": "java.lang.String",
+                    "value": 1673
+                },
+                {
+                    "country": "Main()",
+                    "value": 1673
+                }
+            ];
+
+            AmCharts.ready(function () {
+                // PIE CHART
+                chart2 = new AmCharts.AmPieChart();
+                chart2.dataProvider = chartData2;
+                chart2.titleField = "country";
+                chart2.valueField = "value";
+                chart2.outlineColor = "#FFFFFF";
+                chart2.outlineAlpha = 0.8;
+                chart2.outlineThickness = 2;
+                chart2.balloonText = "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>";
+                // this makes the chart 3D
+                chart2.depth3D = 15;
+                chart2.angle = 30;
+
+                // WRITE
+                chart2.write("chartdiv2");
+            });
+        </script>
+
+<div class="container">
+	<div class="container">
+		<div class="row">
+			<div class="area-top clearfix">
+				<div class="pull-left header">
+					<h3 class="title">
+						Memory
+					</h3>
+					<h5>
+						<span>
+							Memory
+						</span>
+					</h5>
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="row">
+				<!-- <div class="col-md-6"> -->
+					<div id="chartdiv" style=" height: 400px;">
+					</div>
+			<!-- 	</div> -->
+			<!-- 	<div class="col-md-6"> -->
+       			 <div id="chartdiv2" style="height: 400px; width: 100%;"></div>	
+				<!-- </div> -->
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="box">
+				<div class="box-content">
+					<table class="table table-normal">
+						<thead>
+							<tr>
+								<td>Method</td>
+								<td style="width:200px;">Leak Suspect(%)</td>
+								<td style="width:200px;">Heap Size</td>
+							</tr>
+						</thead>
+						<tbody >
+							<% @leak_instances.each do |i|  %>
+								<tr>
+									<td><%= i.instancename %></td>
+                  <td>
+                   <div class="fancyprogress">
+                   <span class="orange" style="width: <%= i.leak_suspect %>%;"><span><%= i.leak_suspect %>%</span></span>
+                   </div>
+                   </td>
+									<td><%= i.size %></td>
+								</tr>
+								<%= render 'memories/leak_instances', object: i.children %>
+							<% end  %>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+	</div>	
+</div>

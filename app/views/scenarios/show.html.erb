@@ -1,0 +1,121 @@
+<% content_for :javascript_includes do %>
+	<%= javascript_include_tag "record-node.js" %>
+<% end %>
+
+<div class="container">
+
+	<div id="modal-scenario-edit" class="modal fade", style="display: none;" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+					<h5>Scenario Edit</h5>
+				</div>
+				<div class="modal-body">
+					<%= simple_form_for [@project,@scenario] do |f| %>
+						<%= f.input :name %>
+						<%= f.input :description %>
+						<%= f.button :submit, "Update" %>
+					<% end  %>
+				</div>
+				<div class="modal-footer">
+					
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="row">
+			<div class="area-top clearfix">
+				<div class="pull-left header">
+					<h3 class="title">
+						scenario 
+					</h3>
+				</div>
+			</div>
+		</div>
+
+		<div class"container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="box">
+						<div id="record-node">
+							
+						</div>
+					</div>
+				</div>
+			</div>	
+		</div>
+		<div class="container">
+			<div class="row">
+			
+				<div class="col-md-12" >
+				
+					<div class="box" >
+						<div class="box-header">
+							<span class="title"><i class="icon-edit"></i>Scenario Info</span>
+						</div>
+						<div class="box-content">
+							<form class="form-horizontal fill-up validatable">
+								<div class="padded">
+									<div class="form-group">
+										<label class="control-label col-lg-2">Scenario Name</label>
+										<div class="col-sm-8">
+											<span><%= @scenario.name %></span>
+										</div>
+										<div class="col-sm-1">
+											<%= link_to "Edit", "#modal-scenario-edit", class: "btn btn-large btn-blue", data: {toggle: "modal"} %>
+										</div>
+										<div class="col-sm-1">
+											<%= link_to "Remove", [@project, @scenario], confirm: "Are you sure?", method: :delete, class: "btn btn-red" %>
+										</div>
+									</div>
+									<div class="form-group">
+										<label class="control-label col-lg-2">Description</label>
+										<div class="col-sm-10">
+											<span>
+												<%= @scenario.description %>
+											</span>
+										</div>
+									</div>
+									
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div id="row">
+				<div class="box">
+					<div class="box-content">
+						<table class="table table-normal">
+							<thead>
+								<tr>
+									<td>Type</td>
+									<td>View</td>
+									<td>Param</td>
+									<td>Sleep</td>
+								</tr>
+							</thead>
+							<tbody>
+							<% @records.each do |record| %>					
+								<tr>
+									<td><%= record.act_type %></td>
+									<td><%= record.view %></td>
+									<td><%= record.param %></td>
+									<td><%= record.sleep %></td>
+								</tr>
+							<% end  %>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+
+	</div>
+</div>	
+
